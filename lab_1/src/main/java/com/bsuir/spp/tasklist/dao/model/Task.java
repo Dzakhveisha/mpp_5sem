@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Entity
@@ -31,4 +33,19 @@ public class Task {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "status")
+    private Long statusId;
+
+    @Column(name = "deadline")
+    private LocalDateTime deadlineDate;
+
+    public TaskStatus getStatus() {
+        return TaskStatus.getTaskByLong(this.getStatusId());
+    }
+
+    public String getDeadlineDateString() {
+        DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return this.deadlineDate.format(aFormatter);
+    }
 }

@@ -2,14 +2,15 @@ package com.bsuir.spp.tasklist.controller;
 
 import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.service.TaskService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Controller
 @RequestMapping("/taskList")
 public class MainController {
@@ -17,13 +18,14 @@ public class MainController {
     private TaskService taskService;
 
     @GetMapping
-    public String getMainPage() {
+    public String getMainPage(Model model) {
         List<Task> tasks = taskService.getAll();
-        return "MainPage";
+        model.addAttribute("tasks", tasks);
+        return "index";
     }
 
     @GetMapping("/new")
-    public void newTask() {
+    public void newTask(Model model) {
 
     }
 }

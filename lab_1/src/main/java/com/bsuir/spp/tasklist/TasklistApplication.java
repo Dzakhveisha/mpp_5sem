@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.bsuir.spp.tasklist**"})
+@SpringBootApplication(scanBasePackages = {"com.bsuir.spp.tasklist.**"})
 @EntityScan("com.bsuir.spp.tasklist.dao.model")
-@EnableJpaRepositories("com.bsuir.spp.tasklist.dao")
+@EnableJpaRepositories("com.bsuir.spp.tasklist.dao.jpa")
 public class TasklistApplication {
 
     public static void main(String[] args) {

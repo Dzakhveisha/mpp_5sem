@@ -21,7 +21,8 @@
 <h1 class="mx-auto">My task List</h1>
 
 <div id="tasks" class="d-flex flex-column justify-content-center m-3">
-    <button id="btnNew" class="btn btn-outline-success my-3">
+    <button id="btnNew" class="btn btn-outline-success my-3"
+        onclick="window.location.href = '${pageContext.request.contextPath}/taskList/showNewTask'">
         Create new Task
     </button>
     <c:forEach items="${tasks}" var="task">
@@ -36,7 +37,7 @@
                 <button class="btn btn-success m-1">
                     <span class="material-icons">done</span>
                 </button>
-                <button class="btn btn-light m-1">
+                <button class="btn btn-light m-1" onclick="window.location.href = '${pageContext.request.contextPath}/taskList/delete?id=${task.id}'">
                     <span class="material-icons">delete</span>
                 </button>
             </div>

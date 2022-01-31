@@ -38,7 +38,7 @@ public class Task {
     private Long statusId;
 
     @Column(name = "deadline")
-    private LocalDateTime deadlineDate;
+    private LocalDateTime deadline;
 
     public TaskStatus getStatus() {
         return TaskStatus.getTaskByLong(this.getStatusId());
@@ -46,6 +46,6 @@ public class Task {
 
     public String getDeadlineDateString() {
         DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return this.deadlineDate.format(aFormatter);
+        return this.deadline.format(aFormatter);
     }
 }

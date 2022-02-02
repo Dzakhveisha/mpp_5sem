@@ -2,6 +2,7 @@ package com.bsuir.spp.tasklist.controller;
 
 import com.bsuir.spp.tasklist.dao.model.InputTask;
 import com.bsuir.spp.tasklist.dao.model.Task;
+import com.bsuir.spp.tasklist.dao.model.TaskStatus;
 import com.bsuir.spp.tasklist.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -25,9 +26,16 @@ public class MainController {
 
     private TaskService taskService;
 
-    @GetMapping
+    @GetMapping({""})
     public String getMainPage(Model model) {
         List<Task> tasks = taskService.getAll();
+        model.addAttribute("tasks", tasks);
+        return "index";
+    }
+
+    @GetMapping("/filter")
+    public String getFilteredMainPage(Model model, TaskStatus status){
+        List<Task> tasks = taskService.getAllByStatus(status);
         model.addAttribute("tasks", tasks);
         return "index";
     }
@@ -41,12 +49,10 @@ public class MainController {
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newTask(@ModelAttribute("task") InputTask task,
                           BindingResult result, Model model) {
-
-
         taskService.create(task);
         List<Task> tasks = taskService.getAll();
         model.addAttribute("tasks", tasks);
-        return "index";
+        return "redirect:/taskList";
     }
 
     @GetMapping("/delete")
@@ -54,7 +60,7 @@ public class MainController {
         taskService.delete(id);
         List<Task> tasks = taskService.getAll();
         model.addAttribute("tasks", tasks);
-        return "index";
+        return "redirect:/taskList";
     }
 
 }

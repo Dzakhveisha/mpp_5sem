@@ -24,6 +24,14 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    public List<Task> getAllByStatus(TaskStatus status) {
+        taskRepository.findAll()
+                .stream()
+                .map(this::checkStatus)
+                .close();
+        return taskRepository.findAllByStatusId(status.getStatusNumber());
+    }
+
     public void delete(long id) {
         if (taskRepository.findById(id).isPresent()) {
             taskRepository.deleteById(id);
@@ -32,7 +40,6 @@ public class TaskService {
 
     public void create(InputTask task) {
         Task newTask = new Task(task.getName(), task.getDescription(), task.getDeadline());
-        //task.setDeadline(LocalDateTime.now());                 ///why null??
         newTask.setStatusId(TaskStatus.AWAIT.getStatusNumber());
         checkStatus(newTask);
         taskRepository.save(newTask);
@@ -41,6 +48,7 @@ public class TaskService {
     private Task checkStatus(Task task) {
         if (task.getStatus().equals(TaskStatus.AWAIT) && task.getDeadline().isBefore(LocalDateTime.now())) {
             task.setStatusId(TaskStatus.EXPIRED.getStatusNumber());
+            taskRepository.save(task);
         }
         return task;
     }

@@ -48,8 +48,9 @@
 
         <div class=" row justify-content-end g-2 p-2">
             <div class="col-md-3">
-                <input id="registerCancel" class="form-control  mx-auto mb-2 mt-1" type="submit"
-                       value="Cancel">
+                <button id="registerCancel" class="form-control  mx-auto mb-2 mt-1" type="button"
+                        onclick="window.location.href = '${pageContext.request.contextPath}/taskList'">
+                Cancel</button>
             </div>
             <div class="col-md-3">
                 <input id="saveSubmit" class="form-control mx-auto mb-2 mt-1" type="submit"

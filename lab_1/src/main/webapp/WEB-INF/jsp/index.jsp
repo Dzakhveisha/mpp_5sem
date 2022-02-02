@@ -25,8 +25,11 @@
         onclick="window.location.href = '${pageContext.request.contextPath}/taskList/showNewTask'">
         Create new Task
     </button>
-    <div id ="filtering" class="d-flex">
-
+    <div id ="filtering" class="d-flex justify-content-around">
+        <a class="link-dark" href="${pageContext.request.contextPath}/taskList">All tasks </a>
+        <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=AWAIT">AWAIT tasks </a>
+        <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=EXPIRED">EXPIRED tasks </a>
+        <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=DONE">DONE tasks </a>
     </div>
     <c:forEach items="${tasks}" var="task">
         <div class="task row d-flex justify-content-between align-items-center my-2 border border-secondary">

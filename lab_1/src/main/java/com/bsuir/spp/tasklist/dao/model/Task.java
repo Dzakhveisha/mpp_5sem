@@ -1,17 +1,8 @@
 package com.bsuir.spp.tasklist.dao.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -28,7 +19,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")
@@ -40,12 +31,18 @@ public class Task {
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
+    public Task(String name, String description, String deadline) {
+        this.name = name;
+        this.description = description;
+        this.deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ISO_DATE_TIME);
+    }
+
     public TaskStatus getStatus() {
         return TaskStatus.getTaskByLong(this.getStatusId());
     }
 
     public String getDeadlineDateString() {
-        DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         return this.deadline.format(aFormatter);
     }
 }

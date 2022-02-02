@@ -25,6 +25,9 @@
         onclick="window.location.href = '${pageContext.request.contextPath}/taskList/showNewTask'">
         Create new Task
     </button>
+    <div id ="filtering" class="d-flex">
+
+    </div>
     <c:forEach items="${tasks}" var="task">
         <div class="task row d-flex justify-content-between align-items-center my-2 border border-secondary">
             <h3 class=" taskName col-2">${task.name}</h3>

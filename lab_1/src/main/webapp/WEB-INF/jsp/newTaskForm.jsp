@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -35,7 +36,8 @@
             </div>
             <div class="col-md-6">
                 <form:label path="deadline" for="deadline"> Deadline </form:label>
-                <form:input path="deadline" id="deadline" class="form-control mx-auto mb-2 mt-1" type="date"/>
+                <form:input path="deadline" id="deadline" class="form-control mx-auto mb-2 mt-1" type="datetime-local"/>
+
             </div>
         </div>
 

@@ -1,9 +1,6 @@
-package com.bsuir.spp.tasklist.dao.model;
+package com.bsuir.spp.tasklist.service;
 
 import lombok.Data;
-
-import javax.persistence.Column;
-import java.time.LocalDateTime;
 
 @Data
 public class InputTask {

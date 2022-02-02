@@ -1,23 +1,16 @@
 package com.bsuir.spp.tasklist.controller;
 
-import com.bsuir.spp.tasklist.dao.model.InputTask;
+import com.bsuir.spp.tasklist.service.InputTask;
 import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.dao.model.TaskStatus;
 import com.bsuir.spp.tasklist.service.TaskService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @AllArgsConstructor
 @Controller
@@ -63,4 +56,11 @@ public class MainController {
         return "redirect:/taskList";
     }
 
+    @GetMapping("/done")
+    public String doneTask(Model model, long id) {
+        taskService.done(id);
+        List<Task> tasks = taskService.getAll();
+        model.addAttribute("tasks", tasks);
+        return "redirect:/taskList";
+    }
 }

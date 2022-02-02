@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <html>
 <head>
+    <title>Tasks</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -41,7 +42,8 @@
             </div>
             <div class="col-1">
                 <button class="btn btn-success m-1">
-                    <span class="material-icons">done</span>
+                    <span class="material-icons" onclick="window.location.href = '${pageContext.request.contextPath}/taskList/done?id=${task.id}'">
+                        done</span>
                 </button>
                 <button class="btn btn-light m-1" onclick="window.location.href = '${pageContext.request.contextPath}/taskList/delete?id=${task.id}'">
                     <span class="material-icons">delete</span>

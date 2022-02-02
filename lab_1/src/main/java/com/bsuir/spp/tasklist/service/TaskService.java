@@ -1,7 +1,6 @@
 package com.bsuir.spp.tasklist.service;
 
 import com.bsuir.spp.tasklist.dao.jpa.TaskRepository;
-import com.bsuir.spp.tasklist.dao.model.InputTask;
 import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.dao.model.TaskStatus;
 import lombok.AllArgsConstructor;
@@ -35,6 +34,14 @@ public class TaskService {
     public void delete(long id) {
         if (taskRepository.findById(id).isPresent()) {
             taskRepository.deleteById(id);
+        }
+    }
+
+    public void done(long id) {
+        if (taskRepository.findById(id).isPresent()) {
+            Task task = taskRepository.getById(id);
+            task.setStatusId(TaskStatus.DONE.getStatusNumber());
+            taskRepository.save(task);
         }
     }
 

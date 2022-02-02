@@ -26,7 +26,7 @@
         onclick="window.location.href = '${pageContext.request.contextPath}/taskList/showNewTask'">
         Create new Task
     </button>
-    <div id ="filtering" class="d-flex justify-content-around">
+    <div id ="filtering" class="d-flex justify-content-around m-1">
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList">All tasks </a>
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=AWAIT">AWAIT tasks </a>
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=EXPIRED">EXPIRED tasks </a>

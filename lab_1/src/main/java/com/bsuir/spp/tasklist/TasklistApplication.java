@@ -20,4 +20,5 @@ public class TasklistApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(TasklistApplication.class);
     }
+
 }

@@ -23,31 +23,41 @@
 
 <div id="tasks" class="d-flex flex-column justify-content-center m-3">
     <button id="btnNew" class="btn btn-outline-success my-3"
-        onclick="window.location.href = '${pageContext.request.contextPath}/taskList/showNewTask'">
+            onclick="window.location.href = '${pageContext.request.contextPath}/taskList/showNewTask'">
         Create new Task
     </button>
-    <div id ="filtering" class="d-flex justify-content-around m-1">
+    <div id="filtering" class="d-flex justify-content-around m-1">
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList">All tasks </a>
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=AWAIT">AWAIT tasks </a>
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=EXPIRED">EXPIRED tasks </a>
         <a class="link-dark" href="${pageContext.request.contextPath}/taskList/filter?status=DONE">DONE tasks </a>
     </div>
     <c:forEach items="${tasks}" var="task">
-        <div class="task row d-flex justify-content-between align-items-center my-2 border border-secondary">
-            <h3 class=" taskName col-2">${task.name}</h3>
-            <p class=" taskDesc col-6">${task.description}</p>
-            <div class=" col-1">
-                <p><b>deadline:</b> ${task.deadlineDateString}</p>
-                <p><b>status:</b> ${task.status}</p>
-            </div>
-            <div class="col-1">
-                <button class="btn btn-success m-1">
-                    <span class="material-icons" onclick="window.location.href = '${pageContext.request.contextPath}/taskList/done?id=${task.id}'">
+        <div class="my-2 border border-secondary">
+            <div class="task row d-flex justify-content-between align-items-center my-2">
+                <h3 class=" taskName col-2">${task.name}</h3>
+                <p class=" taskDesc col-6">${task.description}</p>
+                <div class=" col-1">
+                    <p><b>deadline:</b> ${task.deadlineDateString}</p>
+                    <p><b>status:</b> ${task.status}</p>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-success m-1">
+                    <span class="material-icons"
+                          onclick="window.location.href = '${pageContext.request.contextPath}/taskList/done?id=${task.id}'">
                         done</span>
-                </button>
-                <button class="btn btn-light m-1" onclick="window.location.href = '${pageContext.request.contextPath}/taskList/delete?id=${task.id}'">
-                    <span class="material-icons">delete</span>
-                </button>
+                    </button>
+                    <button class="btn btn-light m-1"
+                            onclick="window.location.href = '${pageContext.request.contextPath}/taskList/delete?id=${task.id}'">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </div>
+                <c:if test="${task.fileName != null}">
+                    <div class="files">
+                        <span> Additional file: </span>
+                        <a href="${pageContext.request.contextPath}/taskList/downloadFile?filename=${task.fileName}"> ${task.fileName}</a>
+                    </div>
+                </c:if>
             </div>
         </div>
     </c:forEach>

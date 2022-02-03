@@ -31,6 +31,16 @@ public class Task {
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
+    @Column(name = "file_name")
+    private String fileName;
+
+    public Task(String name, String description, String deadline, String fileName) {
+        this.name = name;
+        this.description = description;
+        this.fileName = fileName;
+        this.deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ISO_DATE_TIME);
+    }
+
     public Task(String name, String description, String deadline) {
         this.name = name;
         this.description = description;

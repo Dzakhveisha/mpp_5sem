@@ -27,18 +27,23 @@
     <%--@elvariable id="task" type="com.bsuir.spp.tasklist.dao.model.Task"--%>
     <form:form id="newCertificateForm" class="justify-content-center align-items-cent m-6"
           method="POST"
-          action ="/taskList/new" modelAttribute="task">
+          action ="/taskList/new" modelAttribute="task"
+               enctype="multipart/form-data">
 
     <div class=" row g-3 p-2">
             <div class="col-md-6">
                 <form:label for="name" path="name"> Task Name </form:label>
-                <form:input path="name" class="form-control mx-auto mb-2 mt-1" type="text"/>
+                <form:input path="name" class="form-control mx-auto mb-2 mt-1" type="text" required="required"/>
             </div>
             <div class="col-md-6">
                 <form:label path="deadline" for="deadline"> Deadline </form:label>
-                <form:input path="deadline" id="deadline" class="form-control mx-auto mb-2 mt-1" type="datetime-local"/>
+                <form:input path="deadline" id="deadline" class="form-control mx-auto mb-2 mt-1" type="datetime-local" required="required"/>
 
             </div>
+        </div>
+        <div class="row justify-content-end g-2 p-2">
+            <form:label path="file" for="file"> File </form:label>
+            <input id="file" type="file" name="file" path="file" >
         </div>
 
         <div class=" row justify-content-end g-2 p-2">

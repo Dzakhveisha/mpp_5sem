@@ -5,10 +5,14 @@ import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.dao.model.TaskStatus;
 import com.bsuir.spp.tasklist.service.TaskService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -41,11 +45,20 @@ public class MainController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newTask(@ModelAttribute("task") InputTask task,
+                          @RequestParam("file") MultipartFile file,
                           BindingResult result, Model model) {
         taskService.create(task);
         List<Task> tasks = taskService.getAll();
         model.addAttribute("tasks", tasks);
         return "redirect:/taskList";
+    }
+
+    @GetMapping("/downloadFile")
+    @ResponseBody
+    public ResponseEntity<Resource> getFile(String filename) {
+        Resource file = taskService.loadFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @GetMapping("/delete")

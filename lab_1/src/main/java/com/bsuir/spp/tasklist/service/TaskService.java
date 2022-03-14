@@ -4,6 +4,7 @@ import com.bsuir.spp.tasklist.dao.jpa.TaskRepository;
 import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.dao.model.TaskStatus;
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class TaskService {
         }
     }
 
-    public void create(InputTask task) {
+    public Task create(InputTask task) {
         Task newTask;
         if (!task.getFile().getOriginalFilename().equals("")) {
             try {
@@ -68,10 +69,17 @@ public class TaskService {
         }
         newTask.setStatusId(TaskStatus.AWAIT.getStatusNumber());
         checkStatus(newTask);
-        taskRepository.save(newTask);
+        return taskRepository.save(newTask);
     }
 
-    public Resource loadFile(String filename) {
+    public  Task getById(Long id){
+        Task task =  taskRepository.getById(id);
+        return (Task) Hibernate.unproxy(task);
+    }
+
+    public Resource loadFile(Long id) {
+        Task task = taskRepository.getById(id);
+        String filename = task.getFileName() != null ? task.getFileName() : "";
         try {
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());

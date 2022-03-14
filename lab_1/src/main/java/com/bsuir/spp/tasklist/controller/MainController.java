@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Controller
 @RequestMapping("/taskList")
-public class MainController {
+public class MainController {  // it should be restful!
 
     private TaskService taskService;
 

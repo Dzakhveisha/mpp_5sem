@@ -31,7 +31,7 @@ public class TaskController {
     }
 
     @PostMapping("")
-    public Task newTask(@RequestParam("file") MultipartFile file, InputTask task) {
+    public Task newTask(InputTask task) {
         return taskService.create(task);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,6 +60,7 @@ public class TaskService {
         if (!task.getFile().getOriginalFilename().equals("")) {
             try {
                 Files.copy(task.getFile().getInputStream(), this.root.resolve(task.getFile().getOriginalFilename()));
+            } catch (FileAlreadyExistsException e) {
             } catch (Exception e) {
                 throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
             }
@@ -72,8 +74,8 @@ public class TaskService {
         return taskRepository.save(newTask);
     }
 
-    public  Task getById(Long id){
-        Task task =  taskRepository.getById(id);
+    public Task getById(Long id) {
+        Task task = taskRepository.getById(id);
         return (Task) Hibernate.unproxy(task);
     }
 

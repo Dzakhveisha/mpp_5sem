@@ -3,6 +3,7 @@ package com.bsuir.spp.tasklist.service;
 import com.bsuir.spp.tasklist.dao.jpa.TaskRepository;
 import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.dao.model.TaskStatus;
+import com.bsuir.spp.tasklist.service.model.InputTask;
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.core.io.Resource;
@@ -41,6 +42,21 @@ public class TaskService {
         return taskRepository.findAllByStatusId(status.getStatusNumber());
     }
 
+    public List<Task> getAllForUser(Long userId) {
+        return taskRepository.findAllByUserId(userId)
+                .stream()
+                .map(this::checkStatus)
+                .collect(Collectors.toList());
+    }
+
+    public List<Task> getAllByStatusForUser(TaskStatus status, Long userId) {
+        taskRepository.findAll()
+                .stream()
+                .map(this::checkStatus)
+                .close();
+        return taskRepository.findAllByUserIdAndStatusId(userId, status.getStatusNumber());
+    }
+
     public void delete(long id) {
         if (taskRepository.findById(id).isPresent()) {
             taskRepository.deleteById(id);
@@ -55,7 +71,7 @@ public class TaskService {
         }
     }
 
-    public Task create(InputTask task) {
+    public Task create(InputTask task, long userId) {
         Task newTask;
         if (!task.getFile().getOriginalFilename().equals("")) {
             try {
@@ -70,6 +86,7 @@ public class TaskService {
             newTask = new Task(task.getName(), task.getDescription(), task.getDeadline());
         }
         newTask.setStatusId(TaskStatus.AWAIT.getStatusNumber());
+        newTask.setUserId(userId);
         checkStatus(newTask);
         return taskRepository.save(newTask);
     }

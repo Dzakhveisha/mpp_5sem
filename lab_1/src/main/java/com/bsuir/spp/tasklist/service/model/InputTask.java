@@ -1,4 +1,4 @@
-package com.bsuir.spp.tasklist.service;
+package com.bsuir.spp.tasklist.service.model;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

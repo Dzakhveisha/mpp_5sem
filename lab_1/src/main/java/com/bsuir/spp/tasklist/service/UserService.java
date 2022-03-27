@@ -27,6 +27,8 @@ public class UserService {
     public void delete(long id) {
         if (userRepository.findById(id).isPresent()) {
             userRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("User", id);
         }
     }
 
@@ -43,8 +45,12 @@ public class UserService {
     }
 
     public User getById(Long id) {
-        User user = userRepository.getById(id);
-        return (User) Hibernate.unproxy(user);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return  user.get();
+        } else {
+            throw new EntityNotFoundException("User", id);
+        }
     }
 
     public User getByUsername(String name) {
@@ -54,7 +60,5 @@ public class UserService {
         } else {
             throw new EntityNotFoundException("User");
         }
-
-        //return (User) Hibernate.unproxy(user.get());
     }
 }

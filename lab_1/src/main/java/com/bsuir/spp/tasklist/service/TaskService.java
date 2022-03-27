@@ -1,8 +1,10 @@
 package com.bsuir.spp.tasklist.service;
 
 import com.bsuir.spp.tasklist.dao.jpa.TaskRepository;
+import com.bsuir.spp.tasklist.dao.jpa.UserRepository;
 import com.bsuir.spp.tasklist.dao.model.Task;
 import com.bsuir.spp.tasklist.dao.model.TaskStatus;
+import com.bsuir.spp.tasklist.service.exception.EntityNotFoundException;
 import com.bsuir.spp.tasklist.service.model.InputTask;
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
@@ -17,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +29,7 @@ public class TaskService {
     private final Path root = Paths.get("uploads");
 
     private TaskRepository taskRepository;
+    private UserRepository userRepository;
 
     public List<Task> getAll() {
         return taskRepository.findAll()
@@ -43,6 +47,9 @@ public class TaskService {
     }
 
     public List<Task> getAllForUser(Long userId) {
+        if (!userRepository.findById(userId).isPresent()){
+            throw new EntityNotFoundException("User", userId);
+        }
         return taskRepository.findAllByUserId(userId)
                 .stream()
                 .map(this::checkStatus)
@@ -50,6 +57,9 @@ public class TaskService {
     }
 
     public List<Task> getAllByStatusForUser(TaskStatus status, Long userId) {
+        if (!userRepository.findById(userId).isPresent()){
+            throw new EntityNotFoundException("User", userId);
+        }
         taskRepository.findAll()
                 .stream()
                 .map(this::checkStatus)
@@ -60,7 +70,10 @@ public class TaskService {
     public void delete(long id) {
         if (taskRepository.findById(id).isPresent()) {
             taskRepository.deleteById(id);
+        }else {
+            throw new EntityNotFoundException("Task", id);
         }
+
     }
 
     public void done(long id) {
@@ -68,6 +81,8 @@ public class TaskService {
             Task task = taskRepository.getById(id);
             task.setStatusId(TaskStatus.DONE.getStatusNumber());
             taskRepository.save(task);
+        } else {
+            throw new EntityNotFoundException("Task", id);
         }
     }
 
@@ -92,12 +107,20 @@ public class TaskService {
     }
 
     public Task getById(Long id) {
-        Task task = taskRepository.getById(id);
-        return (Task) Hibernate.unproxy(task);
+        Optional<Task> task = taskRepository.findById(id);
+        if (task.isPresent()){
+            return  task.get();
+        } else {
+            throw new EntityNotFoundException("Task", id);
+        }
     }
 
     public Resource loadFile(Long id) {
-        Task task = taskRepository.getById(id);
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (!optionalTask.isPresent()){
+            throw new EntityNotFoundException("Task", id);
+        }
+        Task task = optionalTask.get();
         String filename = task.getFileName() != null ? task.getFileName() : "";
         try {
             Path file = root.resolve(filename);

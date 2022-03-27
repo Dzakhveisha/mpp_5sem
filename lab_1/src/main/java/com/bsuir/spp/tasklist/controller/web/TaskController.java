@@ -23,8 +23,8 @@ public class TaskController {
     @GetMapping("")
     @PreAuthorize("hasAuthority('USER')")    //(hasAuthority('USER') AND #id == principal.id)
     public List<Task> getAllForUser(@RequestParam(required = false) TaskStatus status,
-                             @RequestParam(required = false) Long userId) {
-        if (userId == null) {
+                             @RequestParam(required = false) Long id) {
+        if (id == null) {
             if (status == null) {
                 return taskService.getAll();
             }
@@ -32,15 +32,15 @@ public class TaskController {
 
         } else {
             if (status == null) {
-                return taskService.getAllForUser(userId);
+                return taskService.getAllForUser(id);
             }
-            return taskService.getAllByStatusForUser(status, userId);
+            return taskService.getAllByStatusForUser(status, id);
         }
     }
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('USER')")
-    public Task newTask(@PathVariable long id, @RequestBody InputTask task) {
+    public Task newTask(@RequestParam long id, @ModelAttribute InputTask task) {
         return taskService.create(task, id);
     }
 

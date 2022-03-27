@@ -34,6 +34,9 @@ public class Task {
     @Column(name = "file_name")
     private String fileName;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     public Task(String name, String description, String deadline, String fileName) {
         this.name = name;
         this.description = description;

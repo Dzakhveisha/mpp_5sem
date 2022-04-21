@@ -1,16 +1,18 @@
-type Post {
+type Task {
 	id: ID!,
-	title: String,
-	author: String,
-	type: String,
-	createdDate: String
+	name: String,
+	description: String,
+	deadline: String,
+	status: TaskStatus,
+	fileName: String
+}
+
+enum TaskStatus {
+	AWAIT
+	DONE
+	EXPIRED
 }
 
 type Query {
-	posts: [Post!]!
-	post(id: ID): Post
-}
-
-type Mutation {
-	createPost(title: String!, author: String!, type: String): Post
+	tasks: [Task!]!
 }

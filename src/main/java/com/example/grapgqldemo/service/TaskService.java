@@ -1,6 +1,7 @@
 package com.example.grapgqldemo.service;
 
 
+import com.example.grapgqldemo.model.InputTask;
 import com.example.grapgqldemo.model.Task;
 import com.example.grapgqldemo.model.TaskStatus;
 import com.example.grapgqldemo.repository.TaskRepository;
@@ -11,10 +12,11 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,22 +65,28 @@ public class TaskService {
 
     public Task create(Task task) {
         Task newTask;
-        //if (!task.getFile().getOriginalFilename().equals("")) {
-        //try {
-        //    Files.copy(task.getFile().getInputStream(), this.root.resolve(task.getFile().getOriginalFilename()));
-        //} catch (FileAlreadyExistsException e) {
-        //} catch (Exception e) {
-        //    throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
-        //}
-        // newTask = new Task(task.getName(), task.getDescription(), task.getDeadline(), task.getFile().getOriginalFilename());
-//
-        // } else {
         newTask = new Task(task.getName(), task.getDescription(), task.getDeadline().toString());
-        // }
         newTask.setStatusId(TaskStatus.AWAIT.getStatusNumber());
         newTask.setUserId(null);
         checkStatus(newTask);
         return taskRepository.save(newTask);
+    }
+
+    public Task addFile(InputTask task, long id) {
+        Task editedTask = getById(id);
+        if(task.getFile() != null) {
+            if (!task.getFile().getOriginalFilename().equals("")) {
+                try {
+                    Files.copy(task.getFile().getInputStream(), this.root.resolve(task.getFile().getOriginalFilename()));
+                    editedTask.setFileName(task.getFile().getOriginalFilename());
+                    taskRepository.save(editedTask);
+                } catch (FileAlreadyExistsException e) {
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+                }
+            }
+        }
+        return editedTask;
     }
 
     public Task getById(Long id) {

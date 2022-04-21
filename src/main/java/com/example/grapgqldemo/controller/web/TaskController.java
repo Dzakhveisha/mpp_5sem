@@ -1,6 +1,7 @@
 package com.example.grapgqldemo.controller.web;
 
 
+import com.example.grapgqldemo.model.InputTask;
 import com.example.grapgqldemo.model.Task;
 import com.example.grapgqldemo.model.TaskStatus;
 import com.example.grapgqldemo.service.TaskService;
@@ -19,9 +20,9 @@ public class TaskController {
 
     private TaskService taskService;
 
-    @PostMapping("")
-    public Task newTask(@RequestParam long id, @ModelAttribute Task task) {
-        return taskService.create(task);
+    @PostMapping("/{id}/file")
+    public Task addFile(@PathVariable long id, @ModelAttribute InputTask task) {
+        return taskService.addFile(task, id);
     }
 
     @GetMapping("/{id}/file")

@@ -17,3 +17,7 @@ type Query {
 	tasks: [Task!]!
 	tasksByStatus(status: TaskStatus): [Task!]!
 }
+
+type Mutation {
+	createTask(name: String!, description: String, deadline: String): Task
+}

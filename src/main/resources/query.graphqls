@@ -15,4 +15,5 @@ enum TaskStatus {
 
 type Query {
 	tasks: [Task!]!
+	tasksByStatus(status: TaskStatus): [Task!]!
 }

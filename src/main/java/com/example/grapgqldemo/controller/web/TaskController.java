@@ -19,23 +19,9 @@ public class TaskController {
 
     private TaskService taskService;
 
-    @GetMapping("")
-    public List<Task> getByStatus(@RequestParam(required = false) TaskStatus status) {
-        if (status == null) {
-            return taskService.getAll();
-        }
-        return taskService.getAllByStatus(status);
-    }
-
     @PostMapping("")
     public Task newTask(@RequestParam long id, @ModelAttribute Task task) {
         return taskService.create(task);
-    }
-
-    @GetMapping("/{id}")
-    @ResponseBody
-    public Task getTask(@PathVariable long id) {
-        return taskService.getById(id);
     }
 
     @GetMapping("/{id}/file")

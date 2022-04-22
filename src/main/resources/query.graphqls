@@ -20,4 +20,6 @@ type Query {
 
 type Mutation {
 	createTask(name: String!, description: String, deadline: String): Task
+	deleteTask(id: ID!):Task
+	doneTask(id: ID!):Task
 }

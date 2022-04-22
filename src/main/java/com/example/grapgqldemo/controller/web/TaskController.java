@@ -33,11 +33,6 @@ public class TaskController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable long id) {
-        taskService.delete(id);
-    }
-
     @PutMapping("/{id}")
     public void doneTask(@PathVariable long id) {
         taskService.done(id);

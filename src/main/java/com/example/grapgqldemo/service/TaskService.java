@@ -50,14 +50,13 @@ public class TaskService {
         } else {
             throw new EntityNotFoundException("Task", id);
         }
-
     }
 
-    public void done(long id) {
+    public Task done(long id) {
         if (taskRepository.findById(id).isPresent()) {
-            Task task = taskRepository.getById(id);
+            Task task = taskRepository.findById(id).get();
             task.setStatusId(TaskStatus.DONE.getStatusNumber());
-            taskRepository.save(task);
+            return taskRepository.save(task);
         } else {
             throw new EntityNotFoundException("Task", id);
         }
